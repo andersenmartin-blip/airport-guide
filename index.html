@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Airport Guide | Business App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        
+        /* Transitions */
+        .fade-enter { opacity: 0; transform: translateY(10px); }
+        .fade-enter-active { opacity: 1; transform: translateY(0); transition: opacity 300ms, transform 300ms; }
+        .fade-exit { opacity: 1; transform: scale(1); }
+        .fade-exit-active { opacity: 0; transform: scale(0.95); transition: opacity 200ms, transform 200ms; }
+
+        /* Loader */
+        .loader {
+            border-top-color: #4f46e5;
+            -webkit-animation: spinner 1.5s linear infinite;
+            animation: spinner 1.5s linear infinite;
+        }
+        @keyframes spinner {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 h-screen overflow-hidden flex flex-col">
+
+    <!-- ==================== LOGIN SCREEN ==================== -->
+    <div id="loginScreen" class="fixed inset-0 z-50 bg-slate-900 flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden fade-enter-active">
+            <div class="p-8 text-center">
+                <div class="w-16 h-16 bg-indigo-600 rounded-xl flex items-center justify-center text-white text-2xl mx-auto mb-6 shadow-lg shadow-indigo-500/30">
+                    <i class="fas fa-plane-departure"></i>
+                </div>
+                <h1 class="text-2xl font-bold text-slate-900 mb-2">Airport Guide</h1>
+                <p class="text-slate-500 mb-8">Professional Flight Intelligence</p>
+                
+                <form onsubmit="handleLogin(event)" class="space-y-4 text-left">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Email</label>
+                        <input type="email" value="user@business.com" class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 outline-none transition" required>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Password</label>
+                        <input type="password" value="password" class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 outline-none transition" required>
+                    </div>
+                    <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3.5 rounded-lg shadow-md transition transform active:scale-[0.98]">
+                        Sign In
+                    </button>
+                </form>
+                <p class="mt-6 text-xs text-slate-400">v2.1.0 (Beta) • Authorized Personnel Only</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MAIN APP ==================== -->
+    <div id="appScreen" class="flex h-full hidden">
+        
+        <!-- SIDEBAR (Desktop) -->
+        <aside class="w-64 bg-slate-900 text-white hidden md:flex flex-col flex-shrink-0">
+            <div class="p-6 border-b border-slate-800 flex items-center gap-3">
+                <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-sm">
+                    <i class="fas fa-plane"></i>
+                </div>
+                <span class="font-bold text-lg tracking-tight">Airport Guide</span>
+            </div>
+            
+            <nav class="flex-1 p-4 space-y-2">
+                <button onclick="navTo('dashboard')" id="nav-dashboard" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg bg-indigo-600 text-white font-medium transition">
+                    <i class="fas fa-th-large w-5 text-center"></i> Dashboard
+                </button>
+                <button onclick="navTo('flights')" id="nav-flights" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition">
+                    <i class="fas fa-list w-5 text-center"></i> Flight Board
+                </button>
+                <button onclick="navTo('settings')" id="nav-settings" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition">
+                    <i class="fas fa-cog w-5 text-center"></i> Settings
+                </button>
+            </nav>
+
+            <div class="p-4 border-t border-slate-800">
+                <div class="flex items-center gap-3 px-2">
+                    <div class="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-xs">JP</div>
+                    <div class="text-sm">
+                        <div class="font-medium">Business User</div>
+                        <div class="text-xs text-slate-500">Pro Plan Active</div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT AREA -->
+        <main class="flex-1 flex flex-col h-full overflow-hidden bg-slate-50 relative">
+            
+            <!-- Mobile Header -->
+            <header class="md:hidden bg-slate-900 text-white p-4 flex items-center justify-between shadow-md z-10">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-sm"><i class="fas fa-plane"></i></div>
+                    <span class="font-bold text-lg">Airport Guide</span>
+                </div>
+                <button onclick="toggleMobileMenu()" class="text-slate-300"><i class="fas fa-bars text-xl"></i></button>
+            </header>
+
+            <!-- Scrollable Content -->
+            <div class="flex-1 overflow-y-auto p-4 md:p-8" id="mainContent">
+                
+                <!-- VIEW: DASHBOARD (POWER 10) -->
+                <div id="view-dashboard" class="max-w-5xl mx-auto fade-enter-active">
+                    <h2 class="text-2xl font-bold text-slate-900 mb-2">Network Status</h2>
+                    <p class="text-slate-500 mb-6">Select a hub to view live gate and schedule data.</p>
+                    
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <!-- Hub Cards generated by JS -->
+                    </div>
+                </div>
+
+                <!-- VIEW: FLIGHT BOARD -->
+                <div id="view-flights" class="hidden h-full flex flex-col">
+                    <div class="flex items-center justify-between mb-4 flex-shrink-0">
+                        <div>
+                            <h2 class="text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                <span id="boardTitle">Select Airport</span>
+                                <span class="text-sm px-2 py-1 bg-slate-200 rounded text-slate-600 font-mono" id="boardCode">---</span>
+                            </h2>
+                            <p class="text-sm text-slate-500" id="boardTime">Updated: Just now</p>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="refreshData()" class="bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 px-4 py-2 rounded-lg text-sm font-medium shadow-sm transition">
+                                <i class="fas fa-sync-alt mr-1"></i> Refresh
+                            </button>
+                            <button onclick="navTo('dashboard')" class="md:hidden bg-slate-200 text-slate-600 px-4 py-2 rounded-lg text-sm font-medium">
+                                Back
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Tabs -->
+                    <div class="flex border-b border-slate-200 mb-0 flex-shrink-0">
+                        <button onclick="switchFlightTab('departures')" id="tab-departures" class="px-6 py-3 text-sm font-bold text-indigo-600 border-b-2 border-indigo-600 transition">Departures</button>
+                        <button onclick="switchFlightTab('arrivals')" id="tab-arrivals" class="px-6 py-3 text-sm font-bold text-slate-500 border-b-2 border-transparent hover:text-indigo-600 transition">Arrivals</button>
+                    </div>
+
+                    <!-- Table Container -->
+                    <div class="bg-white rounded-b-xl border border-t-0 border-slate-200 shadow-sm flex-1 overflow-hidden relative">
+                        <div id="loadingOverlay" class="absolute inset-0 bg-white/80 z-10 flex items-center justify-center hidden">
+                            <div class="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mb-4"></div>
+                        </div>
+                        <div class="overflow-y-auto h-full" id="flightTableContainer">
+                            <!-- Injected Table -->
+                            <div class="p-12 text-center text-slate-400">
+                                <i class="fas fa-plane-departure text-4xl mb-4 opacity-20"></i>
+                                <p>Select an airport from the Dashboard to view flights.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW: SETTINGS -->
+                <div id="view-settings" class="hidden max-w-2xl mx-auto">
+                    <h2 class="text-2xl font-bold text-slate-900 mb-6">Settings</h2>
+                    
+                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mb-6">
+                        <h3 class="font-bold text-lg mb-4">Data Source</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">AirLabs API Key</label>
+                                <input type="text" id="settingApiKey" value="6dbc8e13-9a88-4994-9c2c-107dbe6bf103" class="w-full px-3 py-2 border border-slate-300 rounded-md text-sm font-mono text-slate-600">
+                                <p class="text-xs text-slate-400 mt-1">Required for live flight data.</p>
+                            </div>
+                            <div class="flex items-center justify-between py-2">
+                                <div>
+                                    <div class="text-sm font-medium text-slate-900">Demo Mode</div>
+                                    <div class="text-xs text-slate-500">Fill missing gate data with simulated values</div>
+                                </div>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" id="settingDemoMode" class="sr-only peer">
+                                    <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+                                </label>
+                            </div>
+                            <div class="flex items-center justify-between py-2">
+                                <div>
+                                    <div class="text-sm font-medium text-slate-900">Hide Past Flights</div>
+                                    <div class="text-xs text-slate-500">Only show active and upcoming flights</div>
+                                </div>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" id="settingHidePast" class="sr-only peer" checked>
+                                    <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                        <h3 class="font-bold text-lg mb-4">Subscription</h3>
+                        <div class="flex items-center justify-between bg-indigo-50 p-4 rounded-lg border border-indigo-100">
+                            <div>
+                                <div class="font-bold text-indigo-900">Business Annual</div>
+                                <div class="text-xs text-indigo-700">Next billing date: Dec 25, 2026</div>
+                            </div>
+                            <span class="px-3 py-1 bg-white text-indigo-600 text-xs font-bold rounded-full border border-indigo-200">Active</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+
+        <!-- Mobile Nav Bottom -->
+        <nav class="md:hidden bg-white border-t border-slate-200 flex justify-around p-2 text-xs font-medium text-slate-500">
+            <button onclick="navTo('dashboard')" id="mobile-dashboard" class="flex flex-col items-center gap-1 p-2 text-indigo-600">
+                <i class="fas fa-th-large text-lg"></i> Home
+            </button>
+            <button onclick="navTo('flights')" id="mobile-flights" class="flex flex-col items-center gap-1 p-2 hover:text-indigo-600">
+                <i class="fas fa-list text-lg"></i> Board
+            </button>
+            <button onclick="navTo('settings')" id="mobile-settings" class="flex flex-col items-center gap-1 p-2 hover:text-indigo-600">
+                <i class="fas fa-cog text-lg"></i> Settings
+            </button>
+        </nav>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // --- APP DATA ---
+        const POWER_10 = [
+            { code: 'LHR', name: 'London Heathrow', country: '🇬🇧' },
+            { code: 'JFK', name: 'New York Kennedy', country: '🇺🇸' },
+            { code: 'DXB', name: 'Dubai Int.', country: '🇦🇪' },
+            { code: 'FRA', name: 'Frankfurt', country: '🇩🇪' },
+            { code: 'SIN', name: 'Singapore Changi', country: '🇸🇬' },
+            { code: 'HND', name: 'Tokyo Haneda', country: '🇯🇵' },
+            { code: 'CDG', name: 'Paris Charles de Gaulle', country: '🇫🇷' },
+            { code: 'AMS', name: 'Amsterdam Schiphol', country: '🇳🇱' },
+            { code: 'LAX', name: 'Los Angeles Int.', country: '🇺🇸' },
+            { code: 'CPH', name: 'Copenhagen', country: '🇩🇰' }
+        ];
+
+        let state = {
+            currentView: 'dashboard',
+            currentAirport: null,
+            flightData: { departures: [], arrivals: [] },
+            airportDb: {}
+        };
+
+        // --- INIT ---
+        window.addEventListener('load', async () => {
+            renderDashboard();
+            await loadAirportDb();
+        });
+
+        async function loadAirportDb() {
+            try {
+                const res = await fetch('https://raw.githubusercontent.com/algolia/datasets/master/airports/airports.json');
+                const data = await res.json();
+                data.forEach(a => { if(a.iata_code) state.airportDb[a.iata_code] = a.city; });
+            } catch(e) { console.log('DB Load Silent Fail'); }
+        }
+
+        // --- NAVIGATION & UI ---
+        function handleLogin(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Authenticating...';
+            setTimeout(() => {
+                document.getElementById('loginScreen').classList.add('hidden');
+                document.getElementById('appScreen').classList.remove('hidden');
+            }, 800);
+        }
+
+        function navTo(view) {
+            // Update State
+            state.currentView = view;
+            
+            // Hide all views
+            ['dashboard', 'flights', 'settings'].forEach(v => {
+                document.getElementById(`view-${v}`).classList.add('hidden');
+                // Desktop Nav
+                const dBtn = document.getElementById(`nav-${v}`);
+                if(view === v) {
+                    dBtn.classList.remove('text-slate-400', 'hover:bg-slate-800');
+                    dBtn.classList.add('bg-indigo-600', 'text-white');
+                } else {
+                    dBtn.classList.add('text-slate-400', 'hover:bg-slate-800');
+                    dBtn.classList.remove('bg-indigo-600', 'text-white');
+                }
+                // Mobile Nav
+                const mBtn = document.getElementById(`mobile-${v}`);
+                if(view === v) mBtn.classList.add('text-indigo-600');
+                else mBtn.classList.remove('text-indigo-600');
+            });
+
+            // Show current view
+            document.getElementById(`view-${view}`).classList.remove('hidden');
+        }
+
+        function renderDashboard() {
+            const container = document.querySelector('#view-dashboard .grid');
+            container.innerHTML = POWER_10.map(hub => `
+                <div onclick="selectAirport('${hub.code}', '${hub.name}')" class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm hover:shadow-md hover:border-indigo-300 cursor-pointer transition group">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="text-2xl">${hub.country}</span>
+                        <span class="font-mono text-xs font-bold text-slate-400 bg-slate-100 px-2 py-1 rounded group-hover:bg-indigo-100 group-hover:text-indigo-600 transition">${hub.code}</span>
+                    </div>
+                    <h3 class="font-bold text-slate-800 text-sm leading-tight">${hub.name}</h3>
+                    <div class="mt-3 text-xs text-indigo-600 font-medium opacity-0 group-hover:opacity-100 transition flex items-center gap-1">
+                        View Board <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function selectAirport(code, name) {
+            state.currentAirport = { code, name };
+            document.getElementById('boardTitle').textContent = name;
+            document.getElementById('boardCode').textContent = code;
+            navTo('flights');
+            refreshData();
+        }
+
+        function switchFlightTab(type) {
+            const tDep = document.getElementById('tab-departures');
+            const tArr = document.getElementById('tab-arrivals');
+            
+            if(type === 'departures') {
+                tDep.classList.replace('text-slate-500', 'text-indigo-600');
+                tDep.classList.replace('border-transparent', 'border-indigo-600');
+                tArr.classList.replace('text-indigo-600', 'text-slate-500');
+                tArr.classList.replace('border-indigo-600', 'border-transparent');
+                renderFlightTable('departures');
+            } else {
+                tArr.classList.replace('text-slate-500', 'text-indigo-600');
+                tArr.classList.replace('border-transparent', 'border-indigo-600');
+                tDep.classList.replace('text-indigo-600', 'text-slate-500');
+                tDep.classList.replace('border-indigo-600', 'border-transparent');
+                renderFlightTable('arrivals');
+            }
+        }
+
+        // --- DATA LOGIC (Ported from Tester) ---
+        async function refreshData() {
+            if(!state.currentAirport) return;
+            
+            const loader = document.getElementById('loadingOverlay');
+            loader.classList.remove('hidden');
+            
+            const apiKey = document.getElementById('settingApiKey').value;
+            const iata = state.currentAirport.code;
+
+            try {
+                // Parallel Fetch
+                const [depRes, arrRes] = await Promise.all([
+                    fetch(`https://airlabs.co/api/v9/schedules?dep_iata=${iata}&api_key=${apiKey}`),
+                    fetch(`https://airlabs.co/api/v9/schedules?arr_iata=${iata}&api_key=${apiKey}`)
+                ]);
+
+                const depData = await depRes.json();
+                const arrData = await arrRes.json();
+
+                if(depData.error) throw new Error(depData.error.message);
+
+                state.flightData.departures = depData.response || [];
+                state.flightData.arrivals = arrData.response || [];
+                
+                // Update Timestamp
+                const now = new Date();
+                document.getElementById('boardTime').textContent = `Updated: ${now.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}`;
+
+                // Render default tab
+                renderFlightTable('departures');
+                switchFlightTab('departures');
+
+            } catch (err) {
+                document.getElementById('flightTableContainer').innerHTML = `
+                    <div class="p-8 text-center text-red-500">
+                        <i class="fas fa-exclamation-triangle text-2xl mb-2"></i>
+                        <p>${err.message}</p>
+                        <button onclick="navTo('settings')" class="mt-4 text-xs underline">Check API Key</button>
+                    </div>
+                `;
+            } finally {
+                loader.classList.add('hidden');
+            }
+        }
+
+        function renderFlightTable(type) {
+            const container = document.getElementById('flightTableContainer');
+            const rawData = type === 'departures' ? state.flightData.departures : state.flightData.arrivals;
+            
+            // Settings Check
+            const hidePast = document.getElementById('settingHidePast').checked;
+            const demoMode = document.getElementById('settingDemoMode').checked;
+            const now = new Date();
+
+            // Filter & Sort
+            let flights = rawData.filter(f => {
+                if(!hidePast) return true;
+                const t = type === 'departures' ? (f.dep_estimated || f.dep_time) : (f.arr_estimated || f.arr_time);
+                if(!t) return true;
+                return new Date(t).getTime() > (now.getTime() - (15 * 60000)); // 15 min buffer
+            }).sort((a,b) => {
+                const tA = type === 'departures' ? (a.dep_time || '') : (a.arr_time || '');
+                const tB = type === 'departures' ? (b.dep_time || '') : (b.arr_time || '');
+                return tA.localeCompare(tB);
+            });
+
+            if(flights.length === 0) {
+                container.innerHTML = `<div class="p-12 text-center text-slate-400">No active ${type} found.</div>`;
+                return;
+            }
+
+            let html = `
+                <table class="w-full text-sm text-left">
+                    <thead class="text-xs text-slate-500 uppercase bg-slate-50 border-b border-slate-100 sticky top-0">
+                        <tr>
+                            <th class="px-6 py-3 font-semibold">Time</th>
+                            <th class="px-4 py-3 font-semibold">Flight</th>
+                            <th class="px-6 py-3 font-semibold text-right sm:text-left">${type === 'departures' ? 'Destination' : 'Origin'}</th>
+                            <th class="px-4 py-3 font-semibold hidden sm:table-cell">Gate</th>
+                            <th class="px-6 py-3 font-semibold text-right">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+            `;
+
+            flights.forEach(f => {
+                const d = extractData(f, type, demoMode);
+                const badge = getStatusBadge(d.status, d.delay);
+                
+                // Simplified City Lookup
+                let locName = d.airportCode;
+                if(state.airportDb[d.airportCode]) locName = state.airportDb[d.airportCode];
+
+                html += `
+                    <tr class="hover:bg-indigo-50/30 transition-colors">
+                        <td class="px-6 py-4 font-bold text-slate-700 whitespace-nowrap">${d.time}</td>
+                        <td class="px-4 py-4">
+                            <div class="font-mono font-bold text-indigo-600 text-xs">${d.number}</div>
+                            <div class="text-[10px] text-slate-400 truncate max-w-[80px]">${d.airline}</div>
+                        </td>
+                        <td class="px-6 py-4 text-right sm:text-left">
+                            <div class="font-medium text-slate-700 truncate max-w-[120px] ml-auto sm:ml-0">${locName}</div>
+                            <div class="text-xs text-slate-400">${d.airportCode}</div>
+                        </td>
+                        <td class="px-4 py-4 hidden sm:table-cell">
+                            <span class="font-mono font-bold ${d.sim ? 'text-indigo-400' : 'text-slate-700'}">${d.gate || '-'}</span>
+                        </td>
+                        <td class="px-6 py-4 text-right">${badge}</td>
+                    </tr>
+                `;
+            });
+            html += `</tbody></table>`;
+            container.innerHTML = html;
+        }
+
+        // --- HELPERS ---
+        function extractData(f, type, demo) {
+            let data = {
+                time: '--:--',
+                number: f.flight_iata || '---',
+                airline: f.airline_iata || '',
+                airportCode: '???',
+                gate: null,
+                status: f.status || 'Scheduled',
+                delay: 0,
+                sim: false
+            };
+
+            if(type === 'departures') {
+                data.airportCode = f.arr_iata;
+                const rawT = f.dep_estimated || f.dep_time;
+                if(rawT) data.time = rawT.substring(11, 16); // HH:mm
+                data.gate = f.dep_gate;
+                // Delay
+                if(f.dep_estimated && f.dep_time) data.delay = Math.round((new Date(f.dep_estimated) - new Date(f.dep_time))/60000);
+            } else {
+                data.airportCode = f.dep_iata;
+                const rawT = f.arr_estimated || f.arr_time;
+                if(rawT) data.time = rawT.substring(11, 16);
+                data.gate = f.arr_gate;
+                if(f.arr_estimated && f.arr_time) data.delay = Math.round((new Date(f.arr_estimated) - new Date(f.arr_time))/60000);
+            }
+
+            if(demo && !data.gate) {
+                data.gate = ['A','B','C'][Math.floor(Math.random()*3)] + Math.floor(Math.random()*20);
+                data.sim = true;
+            }
+            return data;
+        }
+
+        function getStatusBadge(status, delay) {
+            let color = 'bg-slate-100 text-slate-600';
+            let icon = 'fa-clock';
+            let text = status;
+            
+            const s = status.toLowerCase();
+            if(s === 'landed') { color = 'bg-emerald-50 text-emerald-700'; icon = 'fa-check'; }
+            if(s === 'active') { color = 'bg-blue-50 text-blue-700'; icon = 'fa-plane'; text = 'In Air'; }
+            if(s === 'cancelled') { color = 'bg-red-50 text-red-700'; icon = 'fa-ban'; }
+            
+            if(delay > 10) {
+                color = 'bg-amber-50 text-amber-700';
+                icon = 'fa-exclamation';
+                text += ` +${delay}m`;
+            }
+
+            return `<span class="${color} border border-transparent px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wide"><i class="fas ${icon} mr-1"></i> ${text}</span>`;
+        }
+    </script>
+</body>
+</html>
