@@ -64,7 +64,7 @@
                     <div><label class="block text-xs font-bold text-slate-500 uppercase mb-1">Password</label><input type="password" value="password" class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 outline-none transition text-sm" required></div>
                     <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-lg shadow-md transition transform active:scale-[0.98]">Log In</button>
                 </form>
-                <p class="mt-6 text-xs text-slate-400">v3.1.0 • Layout Fixed</p>
+                <p class="mt-6 text-xs text-slate-400">v3.0.0 • Full Features</p>
             </div>
         </div>
     </div>
@@ -87,28 +87,44 @@
             </div>
         </nav>
 
-        <section class="hero-bg pt-28 pb-20 lg:pt-48 lg:pb-32 text-white">
+        <section class="hero-bg pt-28 pb-16 lg:pt-48 lg:pb-32 text-white">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
                     
-                    <!-- LEFT COLUMN: Text Content (Order 1 on mobile) -->
+                    <!-- LEFT COLUMN: Text Content -->
                     <div class="text-center lg:text-left order-1">
                         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/20 border border-indigo-500/30 text-indigo-300 text-xs font-semibold mb-6">
                             <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span> Live Data V2.0 Available
                         </div>
                         <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight mb-6">The flight data <br><span class="text-indigo-400">professionals trust.</span></h1>
                         <p class="text-base sm:text-lg text-slate-300 mb-8 leading-relaxed max-w-lg mx-auto lg:mx-0">Navigate the world's busiest hubs with confidence. Airport Guide aggregates official flight data to give you clear, actionable updates directly on your device.</p>
-                        <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                        <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-8">
                             <button onclick="openLoginModal()" class="px-8 py-4 bg-indigo-600 rounded-lg font-bold text-center hover:bg-indigo-500 transition shadow-lg shadow-indigo-600/25">Start Free Trial</button>
                             <a href="#features" class="px-8 py-4 bg-slate-800 rounded-lg font-bold text-center hover:bg-slate-700 transition border border-slate-700">See How It Works</a>
                         </div>
-                        <p class="mt-4 text-xs text-slate-500">No credit card required for demo mode.</p>
+                        <p class="mt-2 text-xs text-slate-500 mb-6">No credit card required for demo mode.</p>
+
+                        <!-- AIRPORT LIST (RE-ADDED) -->
+                        <div class="bg-slate-800/50 rounded-xl p-4 border border-slate-700 backdrop-blur-sm inline-block w-full max-w-lg">
+                            <p class="text-xs text-slate-400 font-bold uppercase tracking-wider mb-3 text-center lg:text-left">Supported Network:</p>
+                            <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs font-medium text-left">
+                                <div class="flex items-center gap-2 text-slate-300"><span class="text-base">🇬🇧</span> LHR London</div>
+                                <div class="flex items-center gap-2 text-slate-300"><span class="text-base">🇺🇸</span> JFK New York</div>
+                                <div class="flex items-center gap-2 text-slate-300"><span class="text-base">🇦🇪</span> DXB Dubai</div>
+                                <div class="flex items-center gap-2 text-slate-300"><span class="text-base">🇩🇪</span> FRA Frankfurt</div>
+                                <div class="flex items-center gap-2 text-slate-300"><span class="text-base">🇸🇬</span> SIN Singapore</div>
+                                <div class="flex items-center gap-2 text-slate-300"><span class="text-base">🇯🇵</span> HND Tokyo</div>
+                                <div class="flex items-center gap-2 text-slate-300"><span class="text-base">🇫🇷</span> CDG Paris</div>
+                                <div class="flex items-center gap-2 text-slate-300"><span class="text-base">🇳🇱</span> AMS Amsterdam</div>
+                                <div class="flex items-center gap-2 text-slate-300"><span class="text-base">🇺🇸</span> LAX Los Angeles</div>
+                                <div class="flex items-center gap-2 text-indigo-300 font-bold"><span class="text-base">🇩🇰</span> CPH Copenhagen</div>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- RIGHT COLUMN: The Card (Order 2 on mobile, visible now) -->
+                    <!-- RIGHT COLUMN: The Card -->
                     <div class="relative order-2 mt-12 lg:mt-0">
                         <div class="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl blur opacity-30"></div>
-                        <!-- Card Container: Added mx-auto to center on mobile -->
                         <div class="relative bg-white border border-slate-200 rounded-2xl shadow-2xl overflow-hidden max-w-sm mx-auto transform rotate-[-2deg] hover:rotate-0 transition duration-500">
                             <div class="bg-slate-900 p-6 text-white relative">
                                 <div class="flex justify-between items-start">
@@ -140,7 +156,7 @@
         <!-- Features & Pricing Sections -->
         <section id="features" class="py-16 lg:py-24 bg-white">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center max-w-3xl mx-auto mb-12 lg:mb-16"><h2 class="text-indigo-600 font-semibold uppercase tracking-wide text-sm mb-2">Why Upgrade?</h2><h3 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">One Dashboard for Every Connection</h3><p class="text-slate-600 text-sm sm:text-base">Stop juggling different airport websites and confusing local apps. We unify official data from the world's major business hubs.</p></div>
+                <div class="text-center max-w-3xl mx-auto mb-12 lg:mb-16"><h2 class="text-indigo-600 font-semibold uppercase tracking-wide text-sm mb-2">Why Upgrade?</h2><h3 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">One Dashboard for Every Connection</h3><p class="text-slate-600 text-sm sm:text-base">Stop juggling different airport websites and confusing local apps.</p></div>
                 <div class="grid md:grid-cols-3 gap-6 lg:gap-8">
                     <div class="p-6 sm:p-8 rounded-2xl bg-slate-50 border border-slate-100 hover:shadow-lg transition"><h4 class="text-lg sm:text-xl font-bold text-slate-900 mb-3">Accessible Gate Data</h4><p class="text-slate-600 text-sm">View gate assignments instantly on your phone.</p></div>
                     <div class="p-6 sm:p-8 rounded-2xl bg-slate-50 border border-slate-100 hover:shadow-lg transition"><h4 class="text-lg sm:text-xl font-bold text-slate-900 mb-3">Clear Status Monitoring</h4><p class="text-slate-600 text-sm">See exact delays.</p></div>
