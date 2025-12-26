@@ -64,7 +64,7 @@
                     <div><label class="block text-xs font-bold text-slate-500 uppercase mb-1">Password</label><input type="password" value="password" class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 outline-none transition text-sm" required></div>
                     <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-lg shadow-md transition transform active:scale-[0.98]">Log In</button>
                 </form>
-                <p class="mt-6 text-xs text-slate-400">v2.9.2 • Better Card Layout</p>
+                <p class="mt-6 text-xs text-slate-400">v3.1.0 • Layout Fixed</p>
             </div>
         </div>
     </div>
@@ -87,10 +87,12 @@
             </div>
         </nav>
 
-        <section class="hero-bg pt-28 pb-16 lg:pt-48 lg:pb-32 text-white">
+        <section class="hero-bg pt-28 pb-20 lg:pt-48 lg:pb-32 text-white">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-                    <div class="text-center lg:text-left">
+                    
+                    <!-- LEFT COLUMN: Text Content (Order 1 on mobile) -->
+                    <div class="text-center lg:text-left order-1">
                         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/20 border border-indigo-500/30 text-indigo-300 text-xs font-semibold mb-6">
                             <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span> Live Data V2.0 Available
                         </div>
@@ -100,9 +102,13 @@
                             <button onclick="openLoginModal()" class="px-8 py-4 bg-indigo-600 rounded-lg font-bold text-center hover:bg-indigo-500 transition shadow-lg shadow-indigo-600/25">Start Free Trial</button>
                             <a href="#features" class="px-8 py-4 bg-slate-800 rounded-lg font-bold text-center hover:bg-slate-700 transition border border-slate-700">See How It Works</a>
                         </div>
+                        <p class="mt-4 text-xs text-slate-500">No credit card required for demo mode.</p>
                     </div>
-                    <div class="relative hidden lg:block">
+
+                    <!-- RIGHT COLUMN: The Card (Order 2 on mobile, visible now) -->
+                    <div class="relative order-2 mt-12 lg:mt-0">
                         <div class="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl blur opacity-30"></div>
+                        <!-- Card Container: Added mx-auto to center on mobile -->
                         <div class="relative bg-white border border-slate-200 rounded-2xl shadow-2xl overflow-hidden max-w-sm mx-auto transform rotate-[-2deg] hover:rotate-0 transition duration-500">
                             <div class="bg-slate-900 p-6 text-white relative">
                                 <div class="flex justify-between items-start">
@@ -131,10 +137,10 @@
             </div>
         </section>
 
-        <!-- Features & Pricing -->
+        <!-- Features & Pricing Sections -->
         <section id="features" class="py-16 lg:py-24 bg-white">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center max-w-3xl mx-auto mb-12 lg:mb-16"><h2 class="text-indigo-600 font-semibold uppercase tracking-wide text-sm mb-2">Why Upgrade?</h2><h3 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">One Dashboard for Every Connection</h3><p class="text-slate-600 text-sm sm:text-base">Stop juggling different airport websites and confusing local apps.</p></div>
+                <div class="text-center max-w-3xl mx-auto mb-12 lg:mb-16"><h2 class="text-indigo-600 font-semibold uppercase tracking-wide text-sm mb-2">Why Upgrade?</h2><h3 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">One Dashboard for Every Connection</h3><p class="text-slate-600 text-sm sm:text-base">Stop juggling different airport websites and confusing local apps. We unify official data from the world's major business hubs.</p></div>
                 <div class="grid md:grid-cols-3 gap-6 lg:gap-8">
                     <div class="p-6 sm:p-8 rounded-2xl bg-slate-50 border border-slate-100 hover:shadow-lg transition"><h4 class="text-lg sm:text-xl font-bold text-slate-900 mb-3">Accessible Gate Data</h4><p class="text-slate-600 text-sm">View gate assignments instantly on your phone.</p></div>
                     <div class="p-6 sm:p-8 rounded-2xl bg-slate-50 border border-slate-100 hover:shadow-lg transition"><h4 class="text-lg sm:text-xl font-bold text-slate-900 mb-3">Clear Status Monitoring</h4><p class="text-slate-600 text-sm">See exact delays.</p></div>
