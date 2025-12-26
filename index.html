@@ -24,12 +24,12 @@
             background: radial-gradient(circle at 70% 30%, rgba(99, 102, 241, 0.15) 0%, transparent 50%);
         }
         
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        /* App Specific Styles */
+        .app-scroll::-webkit-scrollbar { width: 6px; height: 6px; }
+        .app-scroll::-webkit-scrollbar-track { background: transparent; }
+        .app-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
         
-        /* Animations */
+        /* Transitions */
         .fade-in { animation: fadeIn 0.3s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
@@ -47,44 +47,26 @@
 </head>
 <body class="text-slate-800 bg-white">
 
-    <!-- ==================== 1. LOGIN MODAL (POPUPS ON LANDING PAGE) ==================== -->
-    <!-- Default state: HIDDEN -->
+    <!-- ==================== 1. LOGIN MODAL ==================== -->
     <div id="landingLoginModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4">
-        <!-- Backdrop with blur -->
         <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity" onclick="closeLoginModal()"></div>
-        
-        <!-- Modal Content -->
         <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden relative z-10 fade-in transform transition-all mx-4">
-            <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 p-2">
-                <i class="fas fa-times text-xl"></i>
-            </button>
-            
+            <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 p-2"><i class="fas fa-times text-xl"></i></button>
             <div class="p-6 sm:p-8 text-center">
-                <div class="w-14 h-14 bg-indigo-600 rounded-xl flex items-center justify-center text-white text-2xl mx-auto mb-6 shadow-lg shadow-indigo-500/30">
-                    <i class="fas fa-plane-departure"></i>
-                </div>
+                <div class="w-14 h-14 bg-indigo-600 rounded-xl flex items-center justify-center text-white text-2xl mx-auto mb-6 shadow-lg shadow-indigo-500/30"><i class="fas fa-plane-departure"></i></div>
                 <h2 class="text-2xl font-bold text-slate-900 mb-2">Welcome Back</h2>
                 <p class="text-slate-500 mb-6 text-sm">Access the professional flight network.</p>
-                
                 <form onsubmit="handleLogin(event)" class="space-y-4 text-left">
-                    <div>
-                        <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Email</label>
-                        <input type="email" value="user@business.com" class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 outline-none transition text-sm" required>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Password</label>
-                        <input type="password" value="password" class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 outline-none transition text-sm" required>
-                    </div>
-                    <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-lg shadow-md transition transform active:scale-[0.98]">
-                        Log In
-                    </button>
+                    <div><label class="block text-xs font-bold text-slate-500 uppercase mb-1">Email</label><input type="email" value="user@business.com" class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 outline-none transition text-sm" required></div>
+                    <div><label class="block text-xs font-bold text-slate-500 uppercase mb-1">Password</label><input type="password" value="password" class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 outline-none transition text-sm" required></div>
+                    <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-lg shadow-md transition transform active:scale-[0.98]">Log In</button>
                 </form>
-                <p class="mt-6 text-xs text-slate-400">v2.5.0 • Authorized Personnel Only</p>
+                <p class="mt-6 text-xs text-slate-400">v2.6.0 • Mobile Optimized</p>
             </div>
         </div>
     </div>
 
-    <!-- ==================== 2. LANDING PAGE VIEW (VISIBLE BY DEFAULT) ==================== -->
+    <!-- ==================== 2. LANDING PAGE VIEW ==================== -->
     <div id="landingView">
         <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-100">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -102,7 +84,6 @@
             </div>
         </nav>
 
-        <!-- Hero Section -->
         <section class="hero-bg pt-28 pb-16 lg:pt-48 lg:pb-32 text-white">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
@@ -110,23 +91,17 @@
                         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/20 border border-indigo-500/30 text-indigo-300 text-xs font-semibold mb-6">
                             <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span> Live Data V2.0 Available
                         </div>
-                        <!-- Responsive Text Size: 3xl on mobile, 6xl on desktop -->
-                        <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight mb-6">
-                            The flight data <br>
-                            <span class="text-indigo-400">professionals trust.</span>
-                        </h1>
-                        <p class="text-base sm:text-lg text-slate-300 mb-8 leading-relaxed max-w-lg mx-auto lg:mx-0">
-                            Navigate the world's busiest hubs with confidence. Airport Guide aggregates official flight data to give you clear, actionable updates directly on your device.
-                        </p>
+                        <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight mb-6">The flight data <br><span class="text-indigo-400">professionals trust.</span></h1>
+                        <p class="text-base sm:text-lg text-slate-300 mb-8 leading-relaxed max-w-lg mx-auto lg:mx-0">Navigate the world's busiest hubs with confidence. Airport Guide aggregates official flight data to give you clear, actionable updates directly on your device.</p>
                         <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                             <button onclick="openLoginModal()" class="px-8 py-4 bg-indigo-600 rounded-lg font-bold text-center hover:bg-indigo-500 transition shadow-lg shadow-indigo-600/25">Start Free Trial</button>
                             <a href="#features" class="px-8 py-4 bg-slate-800 rounded-lg font-bold text-center hover:bg-slate-700 transition border border-slate-700">See How It Works</a>
                         </div>
-                        <p class="mt-4 text-xs text-slate-500">No credit card required for demo mode.</p>
                     </div>
                     <div class="relative hidden lg:block">
                         <div class="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl blur opacity-30"></div>
                         <div class="relative bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl overflow-hidden p-6">
+                            <!-- Visual Mockup -->
                             <div class="flex items-center justify-between p-4 bg-slate-800/50 rounded-xl border border-slate-700/50 mb-4">
                                 <div><div class="text-2xl font-bold font-mono">14:15</div><div class="text-xs text-slate-400">Scheduled</div></div>
                                 <div class="text-right"><div class="text-indigo-400 font-bold">LHR <i class="fas fa-arrow-right mx-1"></i> JFK</div><div class="text-xs text-slate-400">Terminal 5 / Gate B34</div></div>
@@ -141,15 +116,13 @@
             </div>
         </section>
 
-        <!-- Features -->
         <section id="features" class="py-16 lg:py-24 bg-white">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center max-w-3xl mx-auto mb-12 lg:mb-16">
                     <h2 class="text-indigo-600 font-semibold uppercase tracking-wide text-sm mb-2">Why Upgrade?</h2>
                     <h3 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">One Dashboard for Every Connection</h3>
-                    <p class="text-slate-600 text-sm sm:text-base">Stop juggling different airport websites and confusing local apps. We unify official data from the world's major business hubs into a single, standardized interface.</p>
+                    <p class="text-slate-600 text-sm sm:text-base">Stop juggling different airport websites and confusing local apps. We unify official data from the world's major business hubs.</p>
                 </div>
-
                 <div class="grid md:grid-cols-3 gap-6 lg:gap-8">
                     <div class="p-6 sm:p-8 rounded-2xl bg-slate-50 border border-slate-100 hover:shadow-lg transition">
                         <div class="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center text-indigo-600 text-xl mb-6"><i class="fas fa-door-open"></i></div>
@@ -171,38 +144,27 @@
             </div>
         </section>
 
-        <!-- Pricing Section -->
         <section id="pricing" class="py-16 lg:py-24 bg-slate-900 text-white relative overflow-hidden">
             <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10"></div>
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <div class="text-center mb-12 lg:mb-16">
-                    <h2 class="text-2xl sm:text-3xl font-bold mb-4">Simple, Transparent Pricing</h2>
-                    <p class="text-slate-400 text-sm sm:text-base">Expense it to your company or invest in your own peace of mind.</p>
-                </div>
-
+                <div class="text-center mb-12 lg:mb-16"><h2 class="text-2xl sm:text-3xl font-bold mb-4">Simple, Transparent Pricing</h2><p class="text-slate-400 text-sm sm:text-base">Expense it to your company or invest in your own peace of mind.</p></div>
                 <div class="grid md:grid-cols-3 gap-6 lg:gap-8 max-w-5xl mx-auto items-center">
-                    <!-- Monthly Plan -->
                     <div class="bg-slate-800 rounded-2xl p-6 sm:p-8 border border-slate-700 hover:border-slate-600 transition order-2 md:order-1">
                         <h3 class="text-lg font-semibold text-slate-300">Monthly</h3>
                         <div class="my-4 flex items-baseline"><span class="text-4xl font-bold text-white">$8.99</span><span class="text-slate-400 ml-2">/mo</span></div>
                         <button onclick="openLoginModal()" class="block w-full py-3 text-center rounded-lg border border-slate-600 hover:bg-slate-700 font-semibold transition">Select Plan</button>
-                        <ul class="mt-8 space-y-3 text-sm text-slate-300 check-list"><li>Real-time Gate Updates</li><li>Power 10 Network Access</li><li>Ad-free Experience</li></ul>
                     </div>
-                    <!-- Annual Plan -->
                     <div class="bg-indigo-600 rounded-2xl p-6 sm:p-8 border border-indigo-500 transform md:scale-105 shadow-2xl relative order-1 md:order-2">
                         <div class="absolute top-0 right-0 bg-yellow-400 text-yellow-900 text-xs font-bold px-3 py-1 rounded-bl-lg rounded-tr-lg">BEST VALUE</div>
                         <h3 class="text-lg font-semibold text-indigo-100">Annual</h3>
                         <div class="my-4 flex items-baseline"><span class="text-5xl font-bold text-white">$59.99</span><span class="text-indigo-200 ml-2">/yr</span></div>
                         <p class="text-sm text-indigo-100 mb-6 opacity-90">Equivalent to <strong>$4.99/mo</strong>.</p>
                         <button onclick="openLoginModal()" class="block w-full py-3 text-center rounded-lg bg-white text-indigo-700 font-bold hover:bg-indigo-50 transition shadow-lg">Start Free Trial</button>
-                        <ul class="mt-8 space-y-3 text-sm text-white check-list"><li><strong>Everything in Monthly</strong></li><li>Early Access to New Airports</li></ul>
                     </div>
-                    <!-- 6-Month Plan -->
                     <div class="bg-slate-800 rounded-2xl p-6 sm:p-8 border border-slate-700 hover:border-slate-600 transition order-3">
                         <h3 class="text-lg font-semibold text-slate-300">6 Months</h3>
                         <div class="my-4 flex items-baseline"><span class="text-4xl font-bold text-white">$39.99</span><span class="text-slate-400 ml-2">/6mo</span></div>
                         <button onclick="openLoginModal()" class="block w-full py-3 text-center rounded-lg border border-slate-600 hover:bg-slate-700 font-semibold transition">Select Plan</button>
-                        <ul class="mt-8 space-y-3 text-sm text-slate-300 check-list"><li>Real-time Gate Updates</li><li>Power 10 Network Access</li><li>Ad-free Experience</li></ul>
                     </div>
                 </div>
             </div>
@@ -213,7 +175,7 @@
     <!-- ==================== 3. APP CONTAINER VIEW (HIDDEN BY DEFAULT) ==================== -->
     <div id="appContainer" class="hidden h-[100dvh] overflow-hidden flex flex-col bg-slate-50 text-slate-800">
         
-        <!-- Sidebar (Desktop) -->
+        <!-- Sidebar (Desktop Only) -->
         <div id="appLayout" class="flex h-full w-full">
             <aside class="w-64 bg-slate-900 text-white hidden md:flex flex-col flex-shrink-0">
                 <div class="p-6 border-b border-slate-800 flex items-center gap-3"><div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-sm"><i class="fas fa-plane"></i></div><span class="font-bold text-lg tracking-tight">Airport Guide</span></div>
@@ -222,7 +184,6 @@
                     <button onclick="navTo('flights')" id="nav-flights" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition"><i class="fas fa-list w-5 text-center"></i> Flight Board</button>
                     <button onclick="navTo('settings')" id="nav-settings" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition"><i class="fas fa-cog w-5 text-center"></i> Settings</button>
                 </nav>
-                <div class="p-4 border-t border-slate-800"><div class="flex items-center gap-3 px-2"><div class="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-xs">JP</div><div class="text-sm"><div class="font-medium">Business User</div><div class="text-xs text-slate-500">Pro Plan Active</div></div></div></div>
             </aside>
 
             <!-- Main Content -->
@@ -237,6 +198,7 @@
                     <div id="view-dashboard" class="max-w-5xl mx-auto fade-enter-active w-full">
                         <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-2">Network Status</h2>
                         <p class="text-slate-500 mb-6 text-sm">Select a hub to view live gate and schedule data.</p>
+                        <!-- FIX: Use grid-cols-1 by default for mobile -->
                         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 pb-20 md:pb-0" id="dashboardGrid"></div>
                     </div>
 
@@ -305,7 +267,7 @@
             document.getElementById('appContainer').classList.add('hidden');
             document.getElementById('landingView').style.display = 'block';
             state.currentView = 'dashboard'; 
-            navTo('dashboard'); // Reset tabs
+            navTo('dashboard'); 
         }
 
         // --- APP LOGIC ---
