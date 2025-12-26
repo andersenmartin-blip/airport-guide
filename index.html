@@ -25,9 +25,9 @@
         }
         
         /* App Specific Styles */
-        .app-scroll::-webkit-scrollbar { width: 4px; height: 4px; }
-        .app-scroll::-webkit-scrollbar-track { background: transparent; }
-        .app-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
         
         /* Transitions */
         .fade-in { animation: fadeIn 0.3s ease-out; }
@@ -51,9 +51,9 @@
 <body class="text-slate-800 bg-white">
 
     <!-- ==================== 1. LOGIN MODAL ==================== -->
-    <div id="landingLoginModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4">
+    <div id="landingLoginModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-6">
         <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity" onclick="closeLoginModal()"></div>
-        <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden relative z-10 fade-in transform transition-all mx-4">
+        <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden relative z-10 fade-in transform transition-all">
             <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 p-2"><i class="fas fa-times text-xl"></i></button>
             <div class="p-6 sm:p-8 text-center">
                 <div class="w-14 h-14 bg-indigo-600 rounded-xl flex items-center justify-center text-white text-2xl mx-auto mb-6 shadow-lg shadow-indigo-500/30"><i class="fas fa-plane-departure"></i></div>
@@ -64,7 +64,7 @@
                     <div><label class="block text-xs font-bold text-slate-500 uppercase mb-1">Password</label><input type="password" value="password" class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 outline-none transition text-sm" required></div>
                     <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-lg shadow-md transition transform active:scale-[0.98]">Log In</button>
                 </form>
-                <p class="mt-6 text-xs text-slate-400">v3.0.2 • Accuracy First</p>
+                <p class="mt-6 text-xs text-slate-400">v2.9.2 • Better Card Layout</p>
             </div>
         </div>
     </div>
@@ -89,106 +89,44 @@
 
         <section class="hero-bg pt-28 pb-16 lg:pt-48 lg:pb-32 text-white">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <div class="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
-                    
-                    <!-- LEFT COLUMN: Text & Value Prop -->
-                    <div class="text-center lg:text-left pt-4 order-2 lg:order-1">
+                <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+                    <div class="text-center lg:text-left">
                         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/20 border border-indigo-500/30 text-indigo-300 text-xs font-semibold mb-6">
-                            <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span> Live Data V2.0
+                            <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span> Live Data V2.0 Available
                         </div>
-                        
-                        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight mb-6">
-                            Accurate Gate & Flight Data for These <span class="text-indigo-400">10 Business Hubs</span>
-                        </h1>
-                        <p class="text-base sm:text-lg text-slate-300 mb-8 leading-relaxed max-w-lg mx-auto lg:mx-0">
-                            Stop guessing. Get official schedules, real-time delays, and confirmed gate assignments instantly for the airports that matter most to your business.
-                        </p>
-                        
-                        <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-10">
+                        <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight mb-6">The flight data <br><span class="text-indigo-400">professionals trust.</span></h1>
+                        <p class="text-base sm:text-lg text-slate-300 mb-8 leading-relaxed max-w-lg mx-auto lg:mx-0">Navigate the world's busiest hubs with confidence. Airport Guide aggregates official flight data to give you clear, actionable updates directly on your device.</p>
+                        <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                             <button onclick="openLoginModal()" class="px-8 py-4 bg-indigo-600 rounded-lg font-bold text-center hover:bg-indigo-500 transition shadow-lg shadow-indigo-600/25">Start Free Trial</button>
-                            <a href="#features" class="px-8 py-4 bg-slate-800 rounded-lg font-bold text-center hover:bg-slate-700 transition border border-slate-700">See Features</a>
-                        </div>
-
-                        <!-- THE POWER 10 LIST -->
-                        <div class="bg-slate-800/50 rounded-xl p-4 border border-slate-700 backdrop-blur-sm">
-                            <p class="text-xs text-slate-400 font-bold uppercase tracking-wider mb-3 text-center lg:text-left">Supported Network:</p>
-                            <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs font-medium">
-                                <div class="flex items-center gap-2 text-slate-300"><span class="text-lg">🇬🇧</span> LHR London</div>
-                                <div class="flex items-center gap-2 text-slate-300"><span class="text-lg">🇺🇸</span> JFK New York</div>
-                                <div class="flex items-center gap-2 text-slate-300"><span class="text-lg">🇦🇪</span> DXB Dubai</div>
-                                <div class="flex items-center gap-2 text-slate-300"><span class="text-lg">🇩🇪</span> FRA Frankfurt</div>
-                                <div class="flex items-center gap-2 text-slate-300"><span class="text-lg">🇸🇬</span> SIN Singapore</div>
-                                <div class="flex items-center gap-2 text-slate-300"><span class="text-lg">🇯🇵</span> HND Tokyo</div>
-                                <div class="flex items-center gap-2 text-slate-300"><span class="text-lg">🇫🇷</span> CDG Paris</div>
-                                <div class="flex items-center gap-2 text-slate-300"><span class="text-lg">🇳🇱</span> AMS Amsterdam</div>
-                                <div class="flex items-center gap-2 text-slate-300"><span class="text-lg">🇺🇸</span> LAX Los Angeles</div>
-                                <div class="flex items-center gap-2 text-indigo-300 font-bold"><span class="text-lg">🇩🇰</span> CPH Copenhagen</div>
-                            </div>
+                            <a href="#features" class="px-8 py-4 bg-slate-800 rounded-lg font-bold text-center hover:bg-slate-700 transition border border-slate-700">See How It Works</a>
                         </div>
                     </div>
-
-                    <!-- RIGHT COLUMN: THE HERO CARD (Updated to reflect reality) -->
-                    <div class="relative order-1 lg:order-2 mb-8 lg:mb-0">
+                    <div class="relative hidden lg:block">
                         <div class="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl blur opacity-30"></div>
-                        
-                        <!-- The Card Container -->
                         <div class="relative bg-white border border-slate-200 rounded-2xl shadow-2xl overflow-hidden max-w-sm mx-auto transform rotate-[-2deg] hover:rotate-0 transition duration-500">
-                            <!-- Card Header -->
                             <div class="bg-slate-900 p-6 text-white relative">
                                 <div class="flex justify-between items-start">
-                                    <div>
-                                        <div class="text-4xl font-bold font-mono">14:15</div>
-                                        <div class="text-sm opacity-80 text-emerald-400 font-bold mt-1">Boarding Now</div>
-                                    </div>
-                                    <div class="bg-emerald-500 text-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide shadow-lg animate-pulse">
-                                        Gate Open
-                                    </div>
+                                    <div><div class="text-4xl font-bold font-mono">14:15</div><div class="text-sm opacity-80 text-emerald-400 font-bold mt-1">Boarding Now</div></div>
+                                    <div class="bg-emerald-500 text-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide shadow-lg animate-pulse">Gate Open</div>
                                 </div>
                             </div>
-                            
-                            <!-- Card Body -->
                             <div class="p-6 bg-white">
-                                <!-- Route -->
                                 <div class="flex items-center justify-between mb-8 pb-6 border-b border-slate-100">
-                                    <div class="text-center">
-                                        <div class="text-3xl font-black text-slate-800">CPH</div>
-                                        <div class="text-xs text-slate-500 font-medium uppercase tracking-wide mt-1">Origin</div>
-                                    </div>
+                                    <div class="text-center"><div class="text-3xl font-black text-slate-800">CPH</div><div class="text-xs text-slate-500 font-medium uppercase tracking-wide mt-1">Origin</div></div>
                                     <div class="text-indigo-200 text-2xl"><i class="fas fa-plane"></i></div>
-                                    <div class="text-center">
-                                        <div class="text-3xl font-black text-slate-800">LHR</div>
-                                        <div class="text-xs text-slate-500 font-medium uppercase tracking-wide mt-1">Destination</div>
-                                    </div>
+                                    <div class="text-center"><div class="text-3xl font-black text-slate-800">LHR</div><div class="text-xs text-slate-500 font-medium uppercase tracking-wide mt-1">Destination</div></div>
                                 </div>
-
-                                <!-- Gate / Terminal Grid -->
                                 <div class="grid grid-cols-2 gap-4 mb-6">
-                                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-100 text-center">
-                                        <div class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Terminal</div>
-                                        <div class="text-2xl font-bold text-slate-700">3</div>
-                                    </div>
-                                    <div class="bg-indigo-50 p-4 rounded-xl border border-indigo-100 text-center ring-2 ring-indigo-500 ring-offset-2">
-                                        <div class="text-[10px] text-indigo-400 uppercase font-bold tracking-wider">Gate</div>
-                                        <div class="text-2xl font-bold text-indigo-700">B12</div>
-                                    </div>
+                                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-100 text-center"><div class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Terminal</div><div class="text-2xl font-bold text-slate-700">3</div></div>
+                                    <div class="bg-indigo-50 p-4 rounded-xl border border-indigo-100 text-center ring-2 ring-indigo-500 ring-offset-2"><div class="text-[10px] text-indigo-400 uppercase font-bold tracking-wider">Gate</div><div class="text-2xl font-bold text-indigo-700">B12</div></div>
                                 </div>
-
-                                <!-- Info List -->
                                 <div class="space-y-3">
-                                    <div class="flex justify-between items-center bg-slate-50 p-3 rounded-lg">
-                                        <span class="text-xs text-slate-500 font-medium uppercase">Flight</span>
-                                        <span class="font-mono font-bold text-slate-800">SK 503</span>
-                                    </div>
-                                    <div class="flex justify-between items-center bg-slate-50 p-3 rounded-lg">
-                                        <span class="text-xs text-slate-500 font-medium uppercase">Airline</span>
-                                        <span class="font-bold text-slate-800 text-right">SAS</span>
-                                    </div>
+                                    <div class="flex justify-between items-center bg-slate-50 p-3 rounded-lg"><span class="text-xs text-slate-500 font-medium uppercase">Flight</span><span class="font-mono font-bold text-slate-800">SK 503</span></div>
+                                    <div class="flex justify-between items-center bg-slate-50 p-3 rounded-lg"><span class="text-xs text-slate-500 font-medium uppercase">Airline</span><span class="font-bold text-slate-800 text-right">SAS</span></div>
                                 </div>
                             </div>
                         </div>
-                        <!-- Removed misleading "Gate Changed" floating bubble -->
                     </div>
-
                 </div>
             </div>
         </section>
@@ -303,9 +241,9 @@
     </div>
 
     <!-- FLIGHT DETAIL MODAL -->
-    <div id="flightDetailModal" class="hidden fixed inset-0 z-[200] flex items-center justify-center p-4">
+    <div id="flightDetailModal" class="hidden fixed inset-0 z-[200] flex items-center justify-center p-6">
         <div class="absolute inset-0 bg-slate-900/80 backdrop-blur-sm transition-opacity" onclick="closeDetailModal()"></div>
-        <div class="bg-white w-full max-w-sm rounded-2xl shadow-2xl overflow-hidden relative z-10 fade-in transform transition-all mx-4">
+        <div class="bg-white w-full max-w-sm rounded-2xl shadow-2xl overflow-hidden relative z-10 fade-in transform transition-all max-h-[85vh] overflow-y-auto">
             <div id="modalHeader" class="bg-slate-900 p-6 text-white relative">
                 <button onclick="closeDetailModal()" class="absolute top-4 right-4 text-white/70 hover:text-white p-2"><i class="fas fa-times text-xl"></i></button>
                 <div class="flex justify-between items-start">
