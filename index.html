@@ -9,6 +9,7 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
         body { font-family: 'Inter', sans-serif; }
+        html { scroll-behavior: smooth; }
         
         /* Gradients */
         .hero-bg {
@@ -24,7 +25,6 @@
         }
         
         /* App Specific Styles */
-        /* Thin scrollbar for webkit */
         ::-webkit-scrollbar { width: 4px; height: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
@@ -35,7 +35,7 @@
         
         /* Modal & Loaders */
         .modal { transition: opacity 0.25s ease; }
-        body.modal-active { overflow: hidden; } /* Locks background scroll */
+        body.modal-active { overflow: hidden; }
         
         .loader {
             border-top-color: #4f46e5;
@@ -64,7 +64,7 @@
                     <div><label class="block text-xs font-bold text-slate-500 uppercase mb-1">Password</label><input type="password" value="password" class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 outline-none transition text-sm" required></div>
                     <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-lg shadow-md transition transform active:scale-[0.98]">Log In</button>
                 </form>
-                <p class="mt-6 text-xs text-slate-400">v2.8.0 • Streamlined View</p>
+                <p class="mt-6 text-xs text-slate-400">v2.9.0 • Full Airline Names</p>
             </div>
         </div>
     </div>
@@ -102,7 +102,6 @@
                         </div>
                     </div>
                     <div class="relative hidden lg:block">
-                        <!-- Hero visual hidden on mobile to save space/load -->
                         <div class="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl blur opacity-30"></div>
                         <div class="relative bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl overflow-hidden p-6">
                             <div class="flex items-center justify-between p-4 bg-slate-800/50 rounded-xl border border-slate-700/50 mb-4">
@@ -119,7 +118,7 @@
             </div>
         </section>
 
-        <!-- Features & Pricing Sections -->
+        <!-- Features & Pricing -->
         <section id="features" class="py-16 lg:py-24 bg-white">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center max-w-3xl mx-auto mb-12 lg:mb-16"><h2 class="text-indigo-600 font-semibold uppercase tracking-wide text-sm mb-2">Why Upgrade?</h2><h3 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">One Dashboard for Every Connection</h3><p class="text-slate-600 text-sm sm:text-base">Stop juggling different airport websites and confusing local apps.</p></div>
@@ -180,7 +179,7 @@
                     <div class="flex items-center gap-2"><div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-sm"><i class="fas fa-plane"></i></div><span class="font-bold text-lg">Airport Guide</span></div>
                 </header>
 
-                <div class="flex-1 overflow-y-auto p-4 md:p-8 w-full pb-24" id="mainContent">
+                <div class="flex-1 overflow-y-auto p-4 md:p-8 app-scroll w-full pb-24" id="mainContent">
                     <!-- VIEW: DASHBOARD -->
                     <div id="view-dashboard" class="max-w-5xl mx-auto fade-in w-full">
                         <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-2">Network Status</h2>
@@ -198,10 +197,8 @@
                             <div class="flex gap-2"><button onclick="refreshData()" class="flex-1 sm:flex-none bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 px-4 py-2 rounded-lg text-sm font-medium shadow-sm transition"><i class="fas fa-sync-alt mr-1"></i> Refresh</button><button onclick="navTo('dashboard')" class="md:hidden bg-slate-200 text-slate-600 px-4 py-2 rounded-lg text-sm font-medium">Back</button></div>
                         </div>
                         <div class="flex border-b border-slate-200 mb-0 flex-shrink-0"><button onclick="switchFlightTab('departures')" id="tab-departures" class="flex-1 sm:flex-none px-6 py-3 text-sm font-bold text-indigo-600 border-b-2 border-indigo-600 transition text-center">Departures</button><button onclick="switchFlightTab('arrivals')" id="tab-arrivals" class="flex-1 sm:flex-none px-6 py-3 text-sm font-bold text-slate-500 border-b-2 border-transparent hover:text-indigo-600 transition text-center">Arrivals</button></div>
-                        <!-- Single Scroll Context: no overflow-hidden on parent wrapper -->
-                        <div class="bg-white rounded-b-xl border border-t-0 border-slate-200 shadow-sm flex-1 relative mb-20 md:mb-0 min-h-[300px]">
+                        <div class="bg-white rounded-b-xl border border-t-0 border-slate-200 shadow-sm flex-1 overflow-hidden relative mb-20 md:mb-0 min-h-[300px]">
                             <div id="loadingOverlay" class="absolute inset-0 bg-white/80 z-10 flex items-center justify-center hidden"><div class="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mb-4"></div></div>
-                            <!-- REMOVED overflow-y-auto to fix double scrollbar -->
                             <div class="h-full w-full" id="flightTableContainer"><div class="p-12 text-center text-slate-400"><i class="fas fa-plane-departure text-4xl mb-4 opacity-20"></i><p>Select an airport from the Dashboard.</p></div></div>
                         </div>
                     </div>
@@ -251,10 +248,16 @@
                     <div class="bg-slate-50 p-3 rounded-lg border border-slate-100"><div class="text-xs text-slate-500 uppercase font-bold">Terminal</div><div class="text-xl font-bold text-indigo-600" id="modalTerminal">-</div></div>
                     <div class="bg-slate-50 p-3 rounded-lg border border-slate-100"><div class="text-xs text-slate-500 uppercase font-bold">Gate</div><div class="text-xl font-bold text-indigo-600" id="modalGate">-</div></div>
                 </div>
-                <div class="space-y-3 text-sm">
-                    <div class="flex justify-between"><span class="text-slate-500">Flight</span><span class="font-mono font-bold text-slate-800" id="modalFlightNo">---</span></div>
-                    <div class="flex justify-between"><span class="text-slate-500">Airline</span><span class="font-medium text-slate-800 text-right" id="modalAirline">---</span></div>
-                    <div class="flex justify-between"><span class="text-slate-500">Location</span><span class="font-medium text-slate-800 text-right truncate w-40" id="modalAirportName">---</span></div>
+                <div class="space-y-4 text-sm">
+                    <div class="flex justify-between border-b border-slate-50 pb-2"><span class="text-slate-500">Flight No</span><span class="font-mono font-bold text-slate-800" id="modalFlightNo">---</span></div>
+                    <div class="flex flex-col gap-1 border-b border-slate-50 pb-2">
+                        <span class="text-slate-500 text-xs uppercase font-bold">Airline</span>
+                        <span class="font-medium text-slate-800 text-lg leading-tight" id="modalAirline">---</span>
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <span class="text-slate-500 text-xs uppercase font-bold">Destination/Origin</span>
+                        <span class="font-medium text-slate-800 text-lg leading-tight" id="modalAirportName">---</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -263,7 +266,7 @@
     <!-- MAIN SCRIPT -->
     <script>
         const POWER_10 = [ { code: 'LHR', name: 'London Heathrow', country: '🇬🇧' }, { code: 'JFK', name: 'New York Kennedy', country: '🇺🇸' }, { code: 'DXB', name: 'Dubai Int.', country: '🇦🇪' }, { code: 'FRA', name: 'Frankfurt', country: '🇩🇪' }, { code: 'SIN', name: 'Singapore Changi', country: '🇸🇬' }, { code: 'HND', name: 'Tokyo Haneda', country: '🇯🇵' }, { code: 'CDG', name: 'Paris Charles de Gaulle', country: '🇫🇷' }, { code: 'AMS', name: 'Amsterdam Schiphol', country: '🇳🇱' }, { code: 'LAX', name: 'Los Angeles Int.', country: '🇺🇸' }, { code: 'CPH', name: 'Copenhagen', country: '🇩🇰' } ];
-        let state = { currentView: 'dashboard', currentAirport: null, flightData: { departures: [], arrivals: [] }, airportDb: {} };
+        let state = { currentView: 'dashboard', currentAirport: null, flightData: { departures: [], arrivals: [] }, airportDb: {}, airlineDb: {} };
 
         // --- UI LOGIC ---
         function openLoginModal() { document.getElementById('landingLoginModal').classList.remove('hidden'); }
@@ -271,9 +274,20 @@
         function switchToApp() { document.getElementById('landingView').style.display = 'none'; document.getElementById('appContainer').classList.remove('hidden'); }
         function backToLanding() { document.getElementById('appContainer').classList.add('hidden'); document.getElementById('landingView').style.display = 'block'; state.currentView = 'dashboard'; navTo('dashboard'); }
 
+        // Load Databases
         window.addEventListener('load', async () => {
             renderDashboard();
-            try { const res = await fetch('https://raw.githubusercontent.com/algolia/datasets/master/airports/airports.json'); const data = await res.json(); data.forEach(a => { if(a.iata_code) state.airportDb[a.iata_code] = a.city; }); } catch(e) {}
+            try {
+                // Airports
+                const resA = await fetch('https://raw.githubusercontent.com/algolia/datasets/master/airports/airports.json');
+                const dataA = await resA.json();
+                dataA.forEach(a => { if(a.iata_code) state.airportDb[a.iata_code] = a.city; });
+                
+                // Airlines
+                const resB = await fetch('https://raw.githubusercontent.com/npow/airline-codes/master/airlines.json');
+                const dataB = await resB.json();
+                dataB.forEach(a => { if(a.iata) state.airlineDb[a.iata] = a.name; });
+            } catch(e) {}
         });
 
         function handleLogin(e) {
@@ -286,8 +300,13 @@
             ['dashboard', 'flights', 'settings'].forEach(v => {
                 document.getElementById(`view-${v}`).classList.add('hidden');
                 const dBtn = document.getElementById(`nav-${v}`); const mBtn = document.getElementById(`mobile-${v}`);
-                if(view === v) { dBtn.classList.remove('text-slate-400','hover:bg-slate-800'); dBtn.classList.add('bg-indigo-600','text-white'); mBtn.classList.add('text-indigo-600'); } 
-                else { dBtn.classList.add('text-slate-400','hover:bg-slate-800'); dBtn.classList.remove('bg-indigo-600','text-white'); mBtn.classList.remove('text-indigo-600'); }
+                if(view === v) { 
+                    dBtn.classList.remove('text-slate-400','hover:bg-slate-800'); dBtn.classList.add('bg-indigo-600','text-white'); 
+                    mBtn.classList.add('text-indigo-600');
+                } else { 
+                    dBtn.classList.add('text-slate-400','hover:bg-slate-800'); dBtn.classList.remove('bg-indigo-600','text-white'); 
+                    mBtn.classList.remove('text-indigo-600');
+                }
             });
             document.getElementById(`view-${view}`).classList.remove('hidden');
         }
@@ -340,7 +359,14 @@
             let html = `
                 <table class="w-full text-sm text-left">
                     <thead class="text-xs text-slate-500 uppercase bg-slate-50 border-b border-slate-100 sticky top-0">
-                        <tr><th class="px-6 py-3 font-semibold">Time</th><th class="px-2 py-3 font-semibold">Flight</th><th class="px-4 py-3 font-semibold text-right sm:text-left">${type === 'departures' ? 'Dest' : 'Origin'}</th><th class="px-4 py-3 font-semibold hidden sm:table-cell">Gate</th><th class="px-6 py-3 font-semibold text-right hidden sm:table-cell">Status</th></tr>
+                        <tr>
+                            <th class="px-4 py-3 font-semibold w-16">Time</th>
+                            <th class="px-2 py-3 font-semibold w-20">Flight</th>
+                            <th class="px-4 py-3 font-semibold text-right sm:text-left">${type === 'departures' ? 'Dest' : 'Origin'}</th>
+                            <!-- Gate and Status hidden on small mobile, visible on sm+ -->
+                            <th class="px-4 py-3 font-semibold hidden sm:table-cell">Gate</th>
+                            <th class="px-6 py-3 font-semibold text-right hidden sm:table-cell">Status</th>
+                        </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-100">
             `;
@@ -353,9 +379,12 @@
 
                 html += `
                     <tr class="hover:bg-indigo-50/30 transition-colors cursor-pointer" onclick="openFlightDetail('${type}', ${idx})">
-                        <td class="px-6 py-4 font-bold text-slate-700 whitespace-nowrap">${d.time}</td>
+                        <td class="px-4 py-4 font-bold text-slate-700 whitespace-nowrap text-sm">${d.time}</td>
                         <td class="px-2 py-4"><div class="font-mono font-bold text-indigo-600 text-xs">${d.number}</div></td>
-                        <td class="px-4 py-4 text-right sm:text-left"><div class="font-medium text-slate-700 truncate max-w-[120px] ml-auto sm:ml-0 text-sm">${locName}</div></td>
+                        <td class="px-4 py-4 text-right sm:text-left">
+                            <div class="font-medium text-slate-700 truncate max-w-[120px] ml-auto sm:ml-0 text-sm">${locName}</div>
+                            <div class="text-xs text-slate-400 sm:hidden">${d.airline}</div>
+                        </td>
                         <td class="px-4 py-4 hidden sm:table-cell"><span class="font-mono font-bold ${d.sim ? 'text-indigo-400' : 'text-slate-700'}">${d.gate || '-'}</span></td>
                         <td class="px-6 py-4 text-right hidden sm:table-cell">${badge}</td>
                     </tr>
@@ -403,6 +432,10 @@
                 if(f.arr_estimated && f.arr_time) data.delay = Math.round((new Date(f.arr_estimated) - new Date(f.arr_time))/60000);
             }
             if(demo && !data.gate) { data.gate = ['A','B','C'][Math.floor(Math.random()*3)] + Math.floor(Math.random()*20); data.terminal = Math.floor(Math.random()*3) + 1; data.sim = true; }
+            
+            // Full Airline Name
+            if(state.airlineDb[data.airline]) data.airline = state.airlineDb[data.airline];
+            
             return data;
         }
 
